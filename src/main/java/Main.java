@@ -1,28 +1,21 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Main {
-    public static final int MIN_NUMBER_OF_GUESTS = 2;
-    public static final String FINISH_COMMAND = "завершить";
+    private static final int MIN_NUMBER_OF_GUESTS = 2;
+    private static final String FINISH_COMMAND = "завершить";
 
     public static void main(String[] args) {
-        // ваш код начнется здесь
-        // вы не должны ограничиваться только классом Main и можете создавать свои классы по необходимости
-        System.out.println("введите количество человек, на которое следует разделить счет:");
         Scanner scanner = new Scanner(System.in);
         int quantityOfGuests = getInputQuantity(scanner);
-
-
-        getItem(scanner);
-        System.out.println("количество гостей: " + quantityOfGuests);
+        List<Item> items = getInputItems(scanner);
+        Calculator.calculate(quantityOfGuests, items);
     }
 
-    public static int getInputQuantity(Scanner scanner) {
+    private static int getInputQuantity(Scanner scanner) {
+        System.out.println("введите количество человек, на которое следует разделить счет:");
         int inputQuantity;
         while (true) {
             try {
@@ -39,29 +32,29 @@ public class Main {
         return inputQuantity;
     }
 
-    public static void getItem(Scanner scanner) {
+    private static List<Item> getInputItems(Scanner scanner) {
         List<Item> items = new ArrayList<>();
         String command = "";
-
         while (!command.equalsIgnoreCase(FINISH_COMMAND)) {
-            System.out.println("введите название:");
+            System.out.println("введите название товара:");
             Item item = new Item();
             item.setName(scanner.next());
             System.out.println("введите стоимость:");
             try {
-                item.setPrice(scanner.nextDouble());
+                double price = scanner.nextDouble();
+                if (price < 0) {
+                    throw new InputMismatchException();
+                }
+                item.setPrice(price);
                 items.add(item);
                 System.out.println("товар добавлен:");
-                System.out.println("для завершения напишите ЗАВЕРШИТЬ/ для продолжения any key");
+                System.out.println("для завершения: \"ЗАВЕРШИТЬ\"/ для продолжения: ANY KEY");
                 command = scanner.next();
             } catch (InputMismatchException e) {
                 System.out.println("некорректная цена, повторите:");
                 scanner.nextLine();
             }
         }
-        System.out.println("all items:");
-        System.out.println(items);
-
+        return items;
     }
-
 }
