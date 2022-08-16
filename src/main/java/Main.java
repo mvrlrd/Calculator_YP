@@ -51,7 +51,7 @@ public class Main {
                 System.out.println("для завершения: \"ЗАВЕРШИТЬ\"/ для продолжения: ANY KEY");
                 command = scanner.next();
             } catch (InputMismatchException e) {
-                System.out.println("некорректная цена, повторите:");
+                System.out.println("некорректная цена, повторите \n(возможно нужно ',' вместо '.'):");
                 scanner.nextLine();
             }
         }
