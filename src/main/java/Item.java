@@ -16,6 +16,10 @@ public class Item {
 
     @Override
     public String toString() {
-        return name + " " + price+" р.";
+        StringBuilder spacesBetweenNameAndPrice = new StringBuilder();
+        for(int i = 0; i <15-name.length(); i++){
+            spacesBetweenNameAndPrice.append(".");
+        }
+        return name + spacesBetweenNameAndPrice + price+" р.";
     }
 }
